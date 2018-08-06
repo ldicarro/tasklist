@@ -24,62 +24,59 @@
 			<div id="newTaskContainer" class="new-task">
 				<h3>NEW TASK</h3>
 				<div class="formrow">
-					<label for="name">Name
-						<input type="text" id="newTaskName" name="name">
-					</label>
+					<label for="name">Name</label>
+					<input type="text" id="newTaskName" name="name">
 				</div>
 				<div class="formrow">
-					<label for="name">Due Date
-						<select id="newTaskMonth" name="selMonth"></select>
-						<select id="newTaskDay" name="selDay"></select>
-						<select id="newTaskYear" name="selYear"></select>	
-					</label>
+					<label for="name">Due Date</label>
+					<select id="newTaskMonth" name="selMonth"></select>
+					<select id="newTaskDay" name="selDay"></select>
+					<select id="newTaskYear" name="selYear"></select>	
 				</div>
 				<div class="formrow">
-					<label for="description">Description
-						<input type="text" id="newTaskDescription" name="description">
-					</label>
+					<label for="description">Description</label>
+					<input type="text" id="newTaskDescription" name="description">
 				</div>
 				<div class="formrow">
 					<select name="new-task-status" id="newTaskStatus"></select>
 					<select name="new-task-categories" id="newTaskCategories"></select>
 				</div>
-				<button id="newTaskCancel">Cancel</button>
-				<button id="newTaskSubmit">New</button>
+				<button id="newTaskCancel" class="button-cancel">Cancel</button>
+				<button id="newTaskSubmit" class="button-confirm">New</button>
 			</div>
 			<!-- edit task -->
 			<div id="editTaskContainer" class="new-task edit-task">
 				<h3>Edit</h3>
 				<div class="formrow">
-					<label for="name">Name
-						<input type="text" id="editTaskName" name="name">
-					</label>
+					<label for="name">Name</label>
+					<input type="text" id="editTaskName" name="name">
 				</div>
 				<div class="formrow">
-					<label for="id">Id
-						<span id="editTaskId"></span>
-					</label>
+					<label for="id">Id</label>
+					<span id="editTaskId"></span>
 				</div>
 				<div class="formrow">
-					<label for="name">Due Date
-						<select id="editTaskMonth" name="selMonth"></select>
-						<select id="editTaskDay" name="selDay"></select>
-						<select id="editTaskYear" name="selYear"></select>	
-					</label>
+					<label for="name">Due Date</label>
+					<select id="editTaskMonth" name="selMonth"></select>
+					<select id="editTaskDay" name="selDay"></select>
+					<select id="editTaskYear" name="selYear"></select>	
 				</div>
 				<div class="formrow">
-					<label for="description">Description
-						<input type="text" id="editTaskDescription" name="description">
-					</label>
+					<label for="description">Description</label>
+					<input type="text" id="editTaskDescription" name="description">
 				</div>
 				<div class="formrow">
 					<select name="edit-task-status" id="editTaskStatus"></select>
-				</div>
-				<div class="formrow">
 					<select name="edit-task-categories" id="editTaskCategories"></select>
 				</div>
-				<button id="editTaskCancel">Cancel</button>
-				<button id="editTaskSubmit">Update</button>
+				<button id="editTaskCancel" class="button-cancel">Cancel</button>
+				<button id="editTaskSubmit" class="button-confirm">Update</button>
+			</div>
+			<div id="messageModal" class="new-task">
+				<h3></h3>
+				<div class="formrow"></div>
+				<button id="messageModalCancel" class="button-cancel">Cancel</button>
+				<button id="messageModalSubmit" class="button-confirm">Delete</button>
 			</div>
 		</div>
 		<template id="list-item-template">

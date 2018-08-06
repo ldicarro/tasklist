@@ -6,16 +6,17 @@ const monthNamesAbbr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", 
 const HOST = 'http://localhost:3000/';
 const TASK = 'tasks';
 
+let selectedId = '';
+
 document.querySelector('#newTaskSubmit').addEventListener('click',addTask);
-document.querySelector('#newTaskCancel').addEventListener('click', hideTaskModal);
 document.querySelector('#editTaskSubmit').addEventListener('click',updateTask);
-document.querySelector('#editTaskCancel').addEventListener('click',hideTaskModal);
 document.querySelector('#editTaskMonth').addEventListener('change',updateNumberOfDays);
 document.querySelector('#editTaskYear').addEventListener('change',updateNumberOfDays);
 document.querySelector('#newTaskMonth').addEventListener('change', updateNumberOfDays);
 document.querySelector('#newTaskYear').addEventListener('change', updateNumberOfDays);
 document.querySelector('.new-task-button').addEventListener('click',showNewTaskModal);
 
+document.querySelectorAll('.button-cancel').forEach(el => el.addEventListener('click',hideTaskModal));
 
 (function init()
 {
@@ -58,7 +59,7 @@ function fetchTaskList()
 {
 	fetch(`${HOST}${TASK}`)
 		.then((res) => { return res.json(); })
-		.then((data) => { console.log(data); createTaskList(data); });
+		.then((data) => { createTaskList(data); });
 }
 
 function fetchStatusList()
@@ -112,8 +113,6 @@ due_date=${new Date().getTime()}&\
 category=${encodeURI(cat)}\
 `;
 
-	console.log(newtask);
-
 	if(name.value)
 	{
 		fetch(
@@ -137,33 +136,61 @@ category=${encodeURI(cat)}\
 
 function deleteTask(e)
 {
-	let id = e.currentTarget.parentElement.dataset.id;
 
-	fetch(`${HOST}${TASK}/${id}`,
+	fetch(`${HOST}${TASK}/${selectedId}`,
 		{
 			method: 'DELETE'
 		}
 	)
 		.then((res) => { return res.json(); })
-		.then((data) => { console.log(data); clearTaskList(); });
+		.then((data) => { clearTaskList(); hideTaskModal(e); });
 }
 
 function completeTask(e)
 {
-	let id = e.currentTarget.parentNode.getAttribute('data-id');
-	fetch(`${HOST}${TASK}/${id}`,
+	fetch(`${HOST}${TASK}/${selectedId}`,
 		{
 			method: 'PUT',
 			body: 'status=completed',
 			headers: headers
 		})
 		.then((res) => { return res.json(); })
-		.then((data) => { console.log(data); clearTaskList(); });
+		.then((data) => { clearTaskList(); hideTaskModal(e); });
 }
 
 function updateTask(e)
 {
-	console.log('update task')
+	let id = document.querySelector('#editTaskId').innerText;
+	let name = document.querySelector('#editTaskName');
+	let desc = document.querySelector('#editTaskDescription');
+	let catmenu = document.querySelector('#editTaskCategories');
+	let cat = catmenu.options[catmenu.selectedIndex].value.toLowerCase();
+	let statmenu = document.querySelector('#editTaskStatus');
+	let status = statmenu.options[statmenu.selectedIndex].value.toLowerCase();
+
+	let m = document.querySelector('#editTaskMonth').value;
+	let d = document.querySelector('#editTaskDay').value;
+	let y = document.querySelector('#editTaskYear').value;
+
+	let timestring = new Date(`${y}-${m}-${d}`).getTime();
+
+	let newtask = `\
+id=${id}&\
+name=${name.value ? encodeURI(name.value) : ''}&\
+details=${desc.value ? encodeURI(desc.value) : ''}&\
+due_date=${timestring}&\
+category=${encodeURI(cat)}&\
+status=${encodeURI(status)}\
+`;
+console.log(newtask);
+	fetch(`${HOST}${TASK}/${id}`,
+		{
+			method: 'PUT',
+			body: newtask,
+			headers: headers
+		})
+		.then((res) => { return res.json(); })
+		.then((d) => { console.log(d); clearTaskList(); hideTaskModal(e); });
 }
 
 
@@ -195,8 +222,8 @@ function createTaskList(data) {
 		listitem.querySelector('.details').innerText += el.details;
 
 		listitem.querySelector('.expand').onclick = (e) => { expandCollapseTask(e); };
-		listitem.querySelector('.delete-task').onclick = (e) => { deleteTask(e); };
-		listitem.querySelector('.complete').onclick = (e) => { completeTask(e); };
+		listitem.querySelector('.delete-task').onclick = (e) => { showConfirmModal(e,0); };
+		listitem.querySelector('.complete').onclick = (e) => { showConfirmModal(e,1); };
 		listitem.querySelector('.edit').onclick = (e) => { showUpdateTaskModal(e); }
 
 		let d = new Date(el.created_date);
@@ -210,6 +237,23 @@ function createTaskList(data) {
 
 		container.appendChild(listitem);
 	});
+}
+
+function showConfirmModal(e,id) {
+	let msg = MESSAGES.message.find((el) => { return el.id === id });
+	selectedId = e.currentTarget.parentElement.getAttribute('data-id');
+	console.log(selectedId); 
+	document.querySelector('.new-task').classList.remove('overlay');
+	document.querySelector('.container').classList.add('overlay');
+	document.querySelector('.new-task-container').classList.add('overlay');
+
+	let modal =	document.querySelector('#messageModal');
+	modal.querySelector('h3').innerText = msg.title;
+	modal.querySelector('.formrow').innerText = msg.message;
+	modal.querySelector('.button-confirm').innerText = msg.buttons[0];
+	modal.querySelector('.button-confirm').onclick = window[msg.callback];
+	modal.querySelector('.button-cancel').innerText = msg.buttons[1];
+	modal.classList.add('overlay');
 }
 
 function showNewTaskModal(e)
@@ -244,7 +288,8 @@ function showUpdateTaskModal(e)
 
 function hideTaskModal(e)
 {
-	e.currentTarget.parentElement.classList.remove('overlay');
+	let tgt = e.currentTarget ? e.currentTarget : e.target;
+	tgt.parentElement.classList.remove('overlay');
 	document.querySelector('.container').classList.remove('overlay');
 	document.querySelector('.new-task-container').classList.remove('overlay');
 
@@ -308,4 +353,23 @@ String.prototype.toTitleCase = function() {
 	});
 
 	return tempstr;
+}
+
+const MESSAGES = {
+	"message": [
+		{
+			"id": 0,
+			"title": "Confirm",
+			"message": "Are you sure you want to delete the task?",
+			"buttons": ["Delete", "Cancel"],
+			"callback": "deleteTask"
+		},
+		{
+			"id": 1,
+			"title": "Confirm",
+			"message": "Are you sure you want to mark this task complete?",
+			"buttons": ["Update", "Cancel"],
+			"callback": "completeTask"
+		}
+	]
 }
