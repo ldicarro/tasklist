@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title>Tasks</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="res/css/main.css">
+	</head>
+	<body>
+		<!--[if lt IE 7]>
+			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+		<![endif]-->
+		<div class="container">
+			<div class="new-task-button"><span>&#8853;</span> New Task</div>
+			<div class="tasks-container"></div>
+		</div>
+		<div class="new-task-container">
+			<!-- new task -->
+			<div id="newTaskContainer" class="new-task">
+				<h3>NEW TASK</h3>
+				<div class="formrow">
+					<label for="name">Name
+						<input type="text" id="newTaskName" name="name">
+					</label>
+				</div>
+				<div class="formrow">
+					<label for="name">Due Date
+						<select id="newTaskMonth" name="selMonth"></select>
+						<select id="newTaskDay" name="selDay"></select>
+						<select id="newTaskYear" name="selYear"></select>	
+					</label>
+				</div>
+				<div class="formrow">
+					<label for="description">Description
+						<input type="text" id="newTaskDescription" name="description">
+					</label>
+				</div>
+				<div class="formrow">
+					<select name="new-task-status" id="newTaskStatus"></select>
+					<select name="new-task-categories" id="newTaskCategories"></select>
+				</div>
+				<button id="newTaskCancel">Cancel</button>
+				<button id="newTaskSubmit">New</button>
+			</div>
+			<!-- edit task -->
+			<div id="editTaskContainer" class="new-task edit-task">
+				<h3>Edit</h3>
+				<div class="formrow">
+					<label for="name">Name
+						<input type="text" id="editTaskName" name="name">
+					</label>
+				</div>
+				<div class="formrow">
+					<label for="id">Id
+						<span id="editTaskId"></span>
+					</label>
+				</div>
+				<div class="formrow">
+					<label for="name">Due Date
+						<select id="editTaskMonth" name="selMonth"></select>
+						<select id="editTaskDay" name="selDay"></select>
+						<select id="editTaskYear" name="selYear"></select>	
+					</label>
+				</div>
+				<div class="formrow">
+					<label for="description">Description
+						<input type="text" id="editTaskDescription" name="description">
+					</label>
+				</div>
+				<div class="formrow">
+					<select name="edit-task-status" id="editTaskStatus"></select>
+				</div>
+				<div class="formrow">
+					<select name="edit-task-categories" id="editTaskCategories"></select>
+				</div>
+				<button id="editTaskCancel">Cancel</button>
+				<button id="editTaskSubmit">Update</button>
+			</div>
+		</div>
+		<template id="list-item-template">
+			<div class="list-item">
+				<div class="list-item-title" data-id="">
+					<div class="expand"></div>
+					<div class="task-name"></div>
+					<div class="list-item-icon delete-task">X</div>
+					<div class="list-item-icon complete">&#10003;</div>
+					<div class="list-item-icon edit">&#9998;</div>
+				</div>
+				<div class="task-info">
+					<div class="status">Status: </div>
+					<div class="duedate">Due Date: </div>
+					<div class="details">Details: </div>
+					<div class="id">Id: </div>
+					<div class="created">Created on: </div>
+				</div>
+			</div>
+		</template>
+		<script src="res/js/index.js" async defer></script>
+	</body>
+</html>
