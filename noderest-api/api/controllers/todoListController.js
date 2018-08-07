@@ -15,26 +15,35 @@ exports.create_a_task = (req,res) => {
 	console.log(new_task);
 	new_task.save((err,task) => {
 		if(err) { res.send(err); }
-		res.json(task);
+		console.log(task._id);
+		res.json({
+			"message": "Task created",
+			"id": task._id
+		});
 	});
 };
 
 exports.read_a_task = (req,res) => {
 	Task.findById(req.params.taskId, (err,task) => {
-		if(err) { res.send(err); }
+		if(err) { 
+			res.status(404).send('Task Not Found');
+			return;
+		}
 		res.json(task);
 	});
 };
 
 exports.update_a_task = (req, res) => {
-	console.log(res.body);
 	Task.findOneAndUpdate(
 		{_id: req.params.taskId},
 		req.body,
 		{new: true},
 		(err,task) => {
 			if(err) { res.send(err); }
-			res.json(task);
+			res.status(200).send({
+				'message': 'Task Updated',
+				'id': task._id
+			});
 		}
 	);
 };
@@ -43,8 +52,11 @@ exports.delete_a_task = (req, res) => {
 	Task.remove(
 		{ _id: req.params.taskId },
 		(err, task) => {
-			if (err) { res.send(err); }
-			res.json(task);
+			if (err) {
+				res.status(404).send('Task Not Found');
+				return;
+			}
+			res.status(200).send('Task Deleted');
 		}
 	)
 };

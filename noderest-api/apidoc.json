@@ -1,0 +1,12 @@
+{
+	"name": "Task List",
+	"version": "0.1.0",
+	"description": "APIs available for the task list application",
+	"title": "Task List APIs",
+	"url": "https://localhost:3000/v0",
+	"order": [
+		"Tasks",
+		"Status",
+		"Categories"
+	]
+}

@@ -142,7 +142,7 @@ function deleteTask(e)
 			method: 'DELETE'
 		}
 	)
-		.then((res) => { return res.json(); })
+		.then((res) => { return res.text(); })
 		.then((data) => { clearTaskList(); hideTaskModal(e); });
 }
 
