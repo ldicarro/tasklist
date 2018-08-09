@@ -5,8 +5,10 @@ const mongoose = require('mongoose');
 const Task = require('./api/models/todoListModel');
 const bodyParser = require('body-parser');
 
+const config = require('./config');
+
 mongoose.Promise = global.Promise;
-mongoose.connect ('mongodb://localhost/Tododb');
+mongoose.connect(config.database, { useNewUrlParser: true });
 
 app.use((req,res,next) => {
 	res.header('Access-Control-Allow-Origin', '*');

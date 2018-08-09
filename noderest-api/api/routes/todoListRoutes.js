@@ -1,6 +1,9 @@
 'use strict';
-module.exports = function(app) {
-	var todoList = require('../controllers/todoListController');
+module.exports = function (app) {
+	const todoList = require('../controllers/todoListController');
+	const auth = require('../controllers/authenticationController');
+
+	app.use(auth.check_token);
 
 	app.route('/')
 		.get(todoList.list_all_tasks);
@@ -19,4 +22,5 @@ module.exports = function(app) {
 
 	app.route('/categories')
 		.get(todoList.get_categories_list);
+
 };
