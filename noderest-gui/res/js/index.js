@@ -1,5 +1,5 @@
 const container = document.querySelector('.tasks-container');
-const headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded' });
+const headers = new Headers({ 'Content-Type': 'application/x-www-form-urlencoded', 'X-Application-Key': '7b96e636e4bd247fc6dfe3371a194766' });
 const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const monthNamesAbbr = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -57,14 +57,14 @@ document.querySelectorAll('.button-cancel').forEach(el => el.addEventListener('c
 
 function fetchTaskList()
 {
-	fetch(`${HOST}${TASK}`)
+	fetch(`${HOST}${TASK}`, { headers: headers })
 		.then((res) => { return res.json(); })
 		.then((data) => { createTaskList(data); });
 }
 
 function fetchStatusList()
 {
-	fetch(`${HOST}statuses`)
+	fetch(`${HOST}statuses`, { headers: headers })
 		.then((res) => { return res.json(); })
 		.then((data) => {
 			const set0 = document.querySelector('#newTaskStatus');
@@ -82,7 +82,7 @@ function fetchStatusList()
 }
 
 function fetchCategoriesList() {
-	fetch(`${HOST}categories`)
+	fetch(`${HOST}categories`, { headers: headers })
 		.then((res) => { return res.json(); })
 		.then((data) => {
 			const sel0 = document.querySelector('#newTaskCategories');
