@@ -64,7 +64,3 @@ exports.delete_a_task = (req, res) => {
 exports.get_status_list = (req,res) => {
 	res.json(Task.schema.path('status').caster.enumValues);
 };
-
-exports.get_categories_list = (req,res) => {
-	res.json(Task.schema.path('category').caster.enumValues);
-};

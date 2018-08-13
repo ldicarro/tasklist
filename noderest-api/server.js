@@ -3,6 +3,7 @@ const app = express();
 const port = process.env.PORT || 3000;
 const mongoose = require('mongoose');
 const Task = require('./api/models/todoListModel');
+const Categories = require('./api/models/categoriesModel');
 const bodyParser = require('body-parser');
 
 const config = require('./config');
