@@ -16,7 +16,10 @@
 			<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
 		<![endif]-->
 		<div class="container">
-			<div class="new-task-button"><span>&#8853;</span> New Task</div>
+			<div class="header">
+				<span class="new-task-button"><span>&#8853;</span> New Task</span>
+				<span id="new-category">&#9881;</span>
+			</div>
 			<div class="tasks-container"></div>
 		</div>
 		<div class="new-task-container">
@@ -72,6 +75,25 @@
 				<button id="editTaskCancel" class="button-cancel">Cancel</button>
 				<button id="editTaskSubmit" class="button-confirm">Update</button>
 			</div>
+			<!-- new category -->
+			<div id="newCategoryContainer" class="new-task">
+				<h3>NEW CATEGORY</h3>
+				<div class="formrow">
+					<label for="name">Name</label>
+					<input type="text" id="newCategoryName" name="name">
+				</div>
+				<div class="formrow">
+					<label for="description">Description</label>
+					<input type="text" id="newCategoryDescription" name="description">
+				</div>
+				<div class="formrow">
+					<label for="color">Color</label>
+					<input type="color" id="newCategoryColor" name="color">
+				</div>
+				<button id="newCategoryCancel" class="button-cancel">Cancel</button>
+				<button id="newCategorySubmit" class="button-confirm">New</button>
+			</div>
+			<!-- message modal -->
 			<div id="messageModal" class="new-task">
 				<h3></h3>
 				<div class="formrow"></div>

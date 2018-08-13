@@ -101,11 +101,12 @@ select {
 .cat-2 { background-color: #007aff;}
 .cat-3 { background-color: #27ae60; }
 
-.new-task-button {
+.header {
 	cursor: pointer;
+	display: flex;
+	justify-content: space-between;
 	font-size: .8em;
 	text-align: left;
-	width: 280px;
     margin: 10px 5px;
 	padding: 10px;
 	color: #666666;

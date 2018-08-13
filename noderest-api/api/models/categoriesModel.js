@@ -7,6 +7,15 @@ var CategoriesSchema = new Schema({
 	name: {
 		type: String,
 		required: 'Enter name of category'
+	},
+	value: {
+		type: String
+	},
+	description: {
+		type: String
+	},
+	color: {
+		type: String
 	}
 });
 

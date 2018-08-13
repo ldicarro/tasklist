@@ -10,11 +10,13 @@ let selectedId = '';
 
 document.querySelector('#newTaskSubmit').addEventListener('click',addTask);
 document.querySelector('#editTaskSubmit').addEventListener('click',updateTask);
+document.querySelector('#newCategorySubmit').addEventListener('click',addCategory);
 document.querySelector('#editTaskMonth').addEventListener('change',updateNumberOfDays);
 document.querySelector('#editTaskYear').addEventListener('change',updateNumberOfDays);
 document.querySelector('#newTaskMonth').addEventListener('change', updateNumberOfDays);
 document.querySelector('#newTaskYear').addEventListener('change', updateNumberOfDays);
 document.querySelector('.new-task-button').addEventListener('click',showNewTaskModal);
+document.querySelector('#new-category').addEventListener('click',showNewCategoryModal);
 
 document.querySelectorAll('.button-cancel').forEach(el => el.addEventListener('click',hideTaskModal));
 
@@ -88,13 +90,23 @@ function fetchCategoriesList() {
 			const sel0 = document.querySelector('#newTaskCategories');
 			const sel1 = document.querySelector('#editTaskCategories');
 
+			let styleEl = document.createElement('style');
+			document.head.appendChild(styleEl);
+			let stylesheet = styleEl.sheet;
+
 			data.forEach((el) => {
 				let opt = document.createElement('option');
-				opt.value = el;
-				opt.innerText = el.toTitleCase()
+				opt.value = el.value;
+				opt.innerText = el.name.toTitleCase()
 
 				sel0.appendChild(opt);
 				sel1.appendChild(opt.cloneNode(true));
+
+				if(el.color)
+				{
+					console.log(el.color);
+					stylesheet.insertRule(`.${el.value} { background-color: ${el.color};}`);
+				}
 			})
 		})
 }
@@ -193,6 +205,36 @@ console.log(newtask);
 		.then((d) => { console.log(d); clearTaskList(); hideTaskModal(e); });
 }
 
+function addCategory() {
+
+	let name = document.querySelector('#newCategoryName');
+	let desc = document.querySelector('#newCategoryDescription');
+	let color = document.querySelector('#newCategoryColor');
+	let newcategory = `\
+name=${name.value ? encodeURI(name.value) : ''}&\
+details=${desc.value ? encodeURI(desc.value) : ''}&\
+color=${color.value ? encodeURI(color.value) : ''}&\
+`;
+	let e = {};
+	e.currentTarget = document.querySelector('#newCategoryContainer');
+	if (name.value) {
+		fetch(
+			`${HOST}categories`,
+			{
+				method: 'POST',
+				body: newcategory,
+				headers: headers
+			}
+		)
+			.then((res) => { return res.json(); })
+			.then((data) => { console.log(data); clearTaskList(); hideTaskModal(e); })
+			.catch((err) => { console.error(err); });
+	}
+	else {
+		return false;
+	}
+}
+
 
 /*--- gui related ---*/
 var dd = [];
@@ -212,7 +254,7 @@ function createTaskList(data) {
 
 		listitem.querySelector('.list-item').classList.add(el.status);
 		listitem.querySelector('.list-item').classList.add(now.getTime() > el.due_date ? 'overdue' : el.status);
-		listitem.querySelector('.list-item').classList.add(el.category);
+		listitem.querySelector('.list-item').classList.add(el.category ? el.category.replace(' ','-') : null);
 
 		listitem.querySelector('.list-item-title').setAttribute('data-id', el._id);
 
@@ -262,6 +304,14 @@ function showNewTaskModal(e)
 	document.querySelector('.container').classList.add('overlay');
 	document.querySelector('.new-task-container').classList.add('overlay');
 	document.querySelector('#newTaskContainer').classList.add('overlay');
+
+}
+
+function showNewCategoryModal(e) {
+	document.querySelector('.new-task').classList.remove('overlay');
+	document.querySelector('.container').classList.add('overlay');
+	document.querySelector('.new-task-container').classList.add('overlay');
+	document.querySelector('#newCategoryContainer').classList.add('overlay');
 
 }
 

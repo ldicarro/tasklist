@@ -30,11 +30,7 @@ var TaskSchema = new Schema({
 		default: ['pending']
 	},
 	category: {
-		type: [{
-			type: String,
-			enum: ['cat-1','cat-2','cat-3']
-		}],
-		default: ['cat-1']
+		type: String
 	}
 });
 
